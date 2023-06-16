@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import ProductCard from './ProductCard';
-import { CartContext } from './CartContext';
-import Cart from './Cart'; 
+import Cart from './Cart';
+import CartContextProvider from './CartContext';
 
 const App = () => {
   const [showCart, setShowCart] = useState(false);
@@ -16,24 +16,21 @@ const App = () => {
       title: 'Colors',
       price: 100,
       imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%201.png',
-      quantity: 2,
     },
     {
       title: 'Black and white Colors',
       price: 50,
       imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%202.png',
-      quantity: 3,
     },
     {
       title: 'Yellow and Black Colors',
       price: 70,
       imageUrl: 'https://prasadyash2411.github.io/ecom-website/img/Album%203.png',
-      quantity: 1,
     },
   ];
 
   return (
-    <CartContext.Provider value={{ cartElements }}>
+    <CartContextProvider>
       <Container>
         <Row>
           {cartElements.map((product, index) => (
@@ -47,7 +44,7 @@ const App = () => {
         </Button>
         {showCart && <Cart />}
       </Container>
-    </CartContext.Provider>
+    </CartContextProvider>
   );
 };
 
