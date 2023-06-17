@@ -1,48 +1,33 @@
  // ProductsScreen.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { Link, NavLink, Route, Switch } from 'react-router-dom';
 
-const ProductsScreen = () => {
-  const [movies, setMovies] = useState([]);
-  const [loading, setLoading] = useState(true);
+import HomeScreen from './HomeScreen';
+import ProductsScreen from './ProductsScreen';
+import ContactUsScreen from './ContactUsScreen';
 
-  const fetchMovies = async () => {
-    const response = await fetch('/api/movies');
-    const data = await response.json();
-    return data;
-  };
-
-  useEffect(() => {
-    const fetchMoviesData = async () => {
-      const moviesData = await fetchMovies();
-      setMovies(moviesData);
-      setLoading(false);
-    };
-    fetchMoviesData();
-  }, []);
-
-  const handleDeleteMovie = async (id) => {
-    await fetch(`/api/movies/${id}`, { method: 'DELETE' });
-    setMovies(movies.filter((movie) => movie.id !== id));
-  };
-
+const App = () => {
   return (
     <div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {movies.map((movie) => (
-            <div key={movie.id}>
-              <h3>{movie.title}</h3>
-              <p>Price: ${movie.price}</p>
-              <img src={movie.imageUrl} alt={movie.title} />
-              <button onClick={() => handleDeleteMovie(movie.id)}>Delete Movie</button>
-            </div>
-          ))}
-        </div>
-      )}
+      <h1>The Generics</h1>
+      <nav>
+        <NavLink exact to="/" activeClassName="active">
+          Home
+        </NavLink>
+        <NavLink exact to="/products" activeClassName="active">
+          Products
+        </NavLink>
+        <NavLink exact to="/contact-us" activeClassName="active">
+          Contact Us
+        </NavLink>
+      </nav>
+      <Switch>
+        <Route exact path="/" component={HomeScreen} />
+        <Route exact path="/products" component={ProductsScreen} />
+        <Route exact path="/contact-us" component={ContactUsScreen} />
+      </Switch>
     </div>
   );
 };
 
-export default ProductsScreen;
+export default App;
